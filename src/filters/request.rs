@@ -1,6 +1,6 @@
 use futures_util::stream::TryStreamExt;
 use log::{error, trace};
-use warp::http::header::{HeaderName, CONNECTION, COOKIE, HOST, VIA};
+use warp::http::header::{HeaderName, CONNECTION, COOKIE, HOST, REFERER, VIA};
 use warp::http::{HeaderMap, HeaderValue, Method};
 use warp::hyper::{Body, Request};
 use warp::{header, Buf, Filter, Rejection, Stream};
@@ -46,8 +46,11 @@ async fn create_request(
     headers.remove(COOKIE);
     headers.remove(HOST);
 
-    let via_value = format!("2.0 {}", host);
-    append_or_insert_header(&mut headers, VIA, &via_value)?;
+    // let via_value = format!("2.0 {}", host);
+    // append_or_insert_header(&mut headers, VIA, &via_value)?;
+
+    let referer_value = format!("https://{}/", "www.instagram.com");
+    append_or_insert_header(&mut headers, REFERER, &referer_value)?;
 
     let body = body.map_ok(|mut buf| buf.copy_to_bytes(buf.remaining()));
     let mut request = Request::builder()
