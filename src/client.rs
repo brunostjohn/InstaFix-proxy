@@ -1,6 +1,5 @@
 use log::trace;
 use reqwest::Client;
-use warp::http::Version;
 use warp::http::header::SET_COOKIE;
 use warp::http::request::Parts;
 use warp::hyper::{self, Body, Response};
@@ -36,7 +35,6 @@ impl HttpsClient {
             .client
             .request(method, url)
             .headers(headers)
-            .version(Version::HTTP_11)
             .body(body)
             .build()?;
 
