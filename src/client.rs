@@ -1,5 +1,6 @@
 use log::trace;
 use reqwest::Client;
+use tokio::time::Duration;
 use warp::http::header::SET_COOKIE;
 use warp::http::request::Parts;
 use warp::hyper::{self, Body, Response};
@@ -34,6 +35,7 @@ impl HttpsClient {
         let request = self
             .client
             .request(method, url)
+            .timeout(Duration::from_secs(60 * 2))
             .headers(headers)
             .body(body)
             .build()?;
