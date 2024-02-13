@@ -26,3 +26,6 @@ warp = "0.3"
 
 [profile.release]
 strip = true
+lto = true
+opt-level = "s"
+codegen-units = 1
